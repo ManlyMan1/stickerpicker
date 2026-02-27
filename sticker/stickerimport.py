@@ -56,6 +56,7 @@ def add_meta(document: Document, info: matrix.StickerInfo, pack: StickerSetFull)
 
 
 async def reupload_pack(client: TelegramClient, pack: StickerSetFull, output_dir: str) -> None:
+    i = 0
     pack_path = os.path.join(output_dir, f"{pack.set.short_name}.json")
     try:
         os.mkdir(os.path.dirname(pack_path))
@@ -84,6 +85,8 @@ async def reupload_pack(client: TelegramClient, pack: StickerSetFull, output_dir
             reuploaded_documents[document.id] = await reupload_document(client, document)
         # Always ensure the body and telegram metadata is correct
         add_meta(document, reuploaded_documents[document.id], pack)
+        i+=1
+        print(str(i) + "/" + str(pack.set.count)+ " done.")
 
     for sticker in pack.packs:
         if not sticker.emoticon:
@@ -128,7 +131,7 @@ parser.add_argument("pack", help="Sticker pack URLs to import", action="append",
 
 async def main(args: argparse.Namespace) -> None:
     await matrix.load_config(args.config)
-    client = TelegramClient(args.session, 298751, "cb676d6bae20553c9996996a8f52b4d7")
+    client = TelegramClient(args.session, 23890100, "af407c4e000dadc51db82ee6983e4efd")
     await client.start()
 
     if args.list:
