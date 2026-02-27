@@ -36,7 +36,7 @@ async def reupload_document(client: TelegramClient, document: Document) -> matri
     data, mimetype, width, height = util.convert_sticker(data)
     print(".", end="", flush=True)
     mxc = await matrix.upload(data, mimetype, f"{document.id}.png")
-    with open("/home/konni/stickerpicker/web/packs/thumbnails/"+str(mxc).split('/')[-1]+"."+str(mimetype.split('/')[1]), "wb") as binary_file:
+    with open("/home/konni/stickerpicker/web/packs/thumbnails/"+str(mxc).split('/')[-1], "wb") as binary_file:
         binary_file.write(data)
     print(".", flush=True)
     return util.make_sticker(mxc, width, height, len(data), mimetype)
