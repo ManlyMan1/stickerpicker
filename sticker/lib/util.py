@@ -79,9 +79,15 @@ def video_to_webp(data: bytes) -> bytes:
     mime = guess_mime(data)
     ext = mimetypes.guess_extension(mime)
     # run ffmpeg to fix duration
+    
+    if "mpv" in ext:
+            ext = ext.replace("mpv", "mkv")
+    print()
+    print(ext)
     with tempfile.NamedTemporaryFile(suffix=ext) as temp:
         temp.write(data)
         temp.flush()
+        
         with tempfile.NamedTemporaryFile(suffix=ext) as temp_fixed:
             print(".", end="", flush=True)
             result = subprocess.run(["ffmpeg", "-y", "-threads", "auto", "-i", temp.name, "-codec", "copy", temp_fixed.name],
